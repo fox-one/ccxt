@@ -406,7 +406,7 @@ class bigone extends Exchange {
         if ($market !== null) {
             $symbol = $market['symbol'];
         }
-        $timestamp = $this->parse8601 ($order['created_at']);
+        $timestamp = $this->parse8601 ($order['updated_at']);
         $price = $this->safe_float($order, 'price');
         $amount = $this->safe_float($order, 'amount');
         $filled = $this->safe_float($order, 'filled_amount');
@@ -424,7 +424,7 @@ class bigone extends Exchange {
             'timestamp' => $timestamp,
             'status' => $status,
             'symbol' => $symbol,
-            'type' => null,
+            'type' => 'limit',
             'side' => $side,
             'price' => $price,
             'cost' => null,
@@ -435,6 +435,15 @@ class bigone extends Exchange {
             'fee' => null,
             'info' => $order,
         );
+    }
+
+    public function parse_order_status ($status) {
+        $statuses = array (
+            'PENDING' => 'pending',
+            'FILLED' => 'closed',
+            'CANCELED' => 'canceled',
+        );
+        return (is_array ($statuses) && array_key_exists ($status, $statuses)) ? $statuses[$status] : strtolower ($status);
     }
 
     public function create_order ($symbol, $type, $side, $amount, $price = null, $params = array ()) {
@@ -463,7 +472,7 @@ class bigone extends Exchange {
             'amount' => $this->amount_to_precision($symbol, $amount),
             'price' => $this->price_to_precision($symbol, $price),
         ), $params));
-        return $this->parse_order($response, $market);
+        return $this->parse_order($response->data, $market);
     }
 
     public function cancel_order ($id, $symbol = null, $params = array ()) {
@@ -573,7 +582,7 @@ class bigone extends Exchange {
         //       }
         //     }
         //
-        $orders = $this->safe_value($response, 'edges', array ());
+        $orders = $this->safe_value($response->data, 'edges', array ());
         $result = array ();
         for ($i = 0; $i < count ($orders); $i++) {
             $result[] = $this->parse_order($orders[$i]['node'], $market);

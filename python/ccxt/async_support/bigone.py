@@ -392,7 +392,7 @@ class bigone (Exchange):
         symbol = None
         if market is not None:
             symbol = market['symbol']
-        timestamp = self.parse8601(order['created_at'])
+        timestamp = self.parse8601(order['updated_at'])
         price = self.safe_float(order, 'price')
         amount = self.safe_float(order, 'amount')
         filled = self.safe_float(order, 'filled_amount')
@@ -409,7 +409,7 @@ class bigone (Exchange):
             'timestamp': timestamp,
             'status': status,
             'symbol': symbol,
-            'type': None,
+            'type': 'limit',
             'side': side,
             'price': price,
             'cost': None,
@@ -420,6 +420,14 @@ class bigone (Exchange):
             'fee': None,
             'info': order,
         }
+
+    def parse_order_status(self, status):
+        statuses = {
+            'PENDING': 'pending',
+            'FILLED': 'closed',
+            'CANCELED': 'canceled',
+        }
+        return statuses[status] if (status in list(statuses.keys())) else status.lower()
 
     async def create_order(self, symbol, type, side, amount, price=None, params={}):
         # NAME      DESCRIPTION       EXAMPLE                              REQUIRE
@@ -447,7 +455,7 @@ class bigone (Exchange):
             'amount': self.amount_to_precision(symbol, amount),
             'price': self.price_to_precision(symbol, price),
         }, params))
-        return self.parse_order(response, market)
+        return self.parse_order(response.data, market)
 
     async def cancel_order(self, id, symbol=None, params={}):
         await self.load_markets()
@@ -551,7 +559,7 @@ class bigone (Exchange):
         #       }
         #     }
         #
-        orders = self.safe_value(response, 'edges', [])
+        orders = self.safe_value(response.data, 'edges', [])
         result = []
         for i in range(0, len(orders)):
             result.append(self.parse_order(orders[i]['node'], market))

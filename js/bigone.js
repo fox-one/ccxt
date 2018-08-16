@@ -405,7 +405,7 @@ module.exports = class bigone extends Exchange {
         if (typeof market !== 'undefined') {
             symbol = market['symbol'];
         }
-        let timestamp = this.parse8601 (order['created_at']);
+        let timestamp = this.parse8601 (order['updated_at']);
         let price = this.safeFloat (order, 'price');
         let amount = this.safeFloat (order, 'amount');
         let filled = this.safeFloat (order, 'filled_amount');
@@ -423,7 +423,7 @@ module.exports = class bigone extends Exchange {
             'timestamp': timestamp,
             'status': status,
             'symbol': symbol,
-            'type': undefined,
+            'type': 'limit',
             'side': side,
             'price': price,
             'cost': undefined,
@@ -434,6 +434,15 @@ module.exports = class bigone extends Exchange {
             'fee': undefined,
             'info': order,
         };
+    }
+
+    parseOrderStatus (status) {
+        let statuses = {
+            'PENDING': 'pending',
+            'FILLED': 'closed',
+            'CANCELED': 'canceled',
+        };
+        return (status in statuses) ? statuses[status] : status.toLowerCase ();
     }
 
     async createOrder (symbol, type, side, amount, price = undefined, params = {}) {
@@ -462,7 +471,7 @@ module.exports = class bigone extends Exchange {
             'amount': this.amountToPrecision (symbol, amount),
             'price': this.priceToPrecision (symbol, price),
         }, params));
-        return this.parseOrder (response, market);
+        return this.parseOrder (response.data, market);
     }
 
     async cancelOrder (id, symbol = undefined, params = {}) {
@@ -572,7 +581,7 @@ module.exports = class bigone extends Exchange {
         //       }
         //     }
         //
-        let orders = this.safeValue (response, 'edges', []);
+        let orders = this.safeValue (response.data, 'edges', []);
         let result = [];
         for (let i = 0; i < orders.length; i++) {
             result.push (this.parseOrder (orders[i]['node'], market));
