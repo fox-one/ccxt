@@ -5627,8 +5627,8 @@ module.exports = class bigone extends Exchange {
         await this.loadMarkets ();
         let market = this.market (symbol);
         let response = await this.privatePostOrders (this.extend ({
-            'order_market': market['id'],
-            'order_side': (side === 'buy' ? 'BID' : 'ASK'),
+            'market_id': market['id'],
+            'side': (side === 'buy' ? 'BID' : 'ASK'),
             'amount': this.amountToPrecision (symbol, amount),
             'price': this.priceToPrecision (symbol, price),
         }, params));
@@ -80313,7 +80313,7 @@ module.exports={
   "_from": "elliptic@^6.2.3",
   "_id": "elliptic@6.4.1",
   "_inBundle": false,
-  "_integrity": "sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==",
+  "_integrity": "sha1-wtC3d2kRuGcixjLDwGxg8vgZk5o=",
   "_location": "/elliptic",
   "_phantomChildren": {},
   "_requested": {
@@ -80333,10 +80333,10 @@ module.exports={
     "/secp256k1",
     "/web3-eth-accounts/eth-lib"
   ],
-  "_resolved": "https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz",
+  "_resolved": "http://registry.npm.taobao.org/elliptic/download/elliptic-6.4.1.tgz",
   "_shasum": "c2d0b7776911b86722c632c3c06c60f2f819939a",
   "_spec": "elliptic@^6.2.3",
-  "_where": "/home/travis/build/ccxt/ccxt/node_modules/secp256k1",
+  "_where": "/Users/divisey/Workspaces/ccxt/node_modules/secp256k1",
   "author": {
     "name": "Fedor Indutny",
     "email": "fedor@indutny.com"
@@ -113686,10 +113686,10 @@ module.exports={
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/web3/-/web3-1.0.0-beta.34.tgz",
+  "_resolved": "http://registry.npm.taobao.org/web3/download/web3-1.0.0-beta.34.tgz",
   "_shasum": "347e561b784098cb5563315f490479a1d91f2ab1",
   "_spec": "web3@1.0.0-beta.34",
-  "_where": "/home/travis/build/ccxt/ccxt",
+  "_where": "/Users/divisey/Workspaces/ccxt",
   "author": {
     "name": "ethereum.org"
   },
@@ -113902,7 +113902,7 @@ module.exports={
   ],
   "_resolved": "git://github.com/frozeman/WebSocket-Node.git#6c72925e3f8aaaea8dc8450f97627e85263999f2",
   "_spec": "websocket@git://github.com/frozeman/WebSocket-Node.git#browserifyCompatible",
-  "_where": "/home/travis/build/ccxt/ccxt/node_modules/web3-providers-ws",
+  "_where": "/Users/divisey/Workspaces/ccxt/node_modules/web3-providers-ws",
   "author": {
     "name": "Brian McKelvey",
     "email": "brian@worlize.com",

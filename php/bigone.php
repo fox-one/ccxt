@@ -458,8 +458,8 @@ class bigone extends Exchange {
         $this->load_markets();
         $market = $this->market ($symbol);
         $response = $this->privatePostOrders (array_merge (array (
-            'order_market' => $market['id'],
-            'order_side' => ($side === 'buy' ? 'BID' : 'ASK'),
+            'market_id' => $market['id'],
+            'side' => ($side === 'buy' ? 'BID' : 'ASK'),
             'amount' => $this->amount_to_precision($symbol, $amount),
             'price' => $this->price_to_precision($symbol, $price),
         ), $params));

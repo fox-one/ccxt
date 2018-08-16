@@ -442,8 +442,8 @@ class bigone (Exchange):
         self.load_markets()
         market = self.market(symbol)
         response = self.privatePostOrders(self.extend({
-            'order_market': market['id'],
-            'order_side': (side == 'BID' if 'buy' else 'ASK'),
+            'market_id': market['id'],
+            'side': (side == 'BID' if 'buy' else 'ASK'),
             'amount': self.amount_to_precision(symbol, amount),
             'price': self.price_to_precision(symbol, price),
         }, params))

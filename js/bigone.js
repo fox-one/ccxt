@@ -457,8 +457,8 @@ module.exports = class bigone extends Exchange {
         await this.loadMarkets ();
         let market = this.market (symbol);
         let response = await this.privatePostOrders (this.extend ({
-            'order_market': market['id'],
-            'order_side': (side === 'buy' ? 'BID' : 'ASK'),
+            'market_id': market['id'],
+            'side': (side === 'buy' ? 'BID' : 'ASK'),
             'amount': this.amountToPrecision (symbol, amount),
             'price': this.priceToPrecision (symbol, price),
         }, params));
