@@ -390,7 +390,7 @@ class bigone extends Exchange {
         //       "state" => "FILLED"
         //     }
         //
-        $id = $this->safe_string($order, 'order_id');
+        $id = $this->safe_string($order, 'id');
         if ($market === null) {
             $marketId = $this->safe_string($order, 'market_id');
             if (is_array ($this->markets_by_id) && array_key_exists ($marketId, $this->markets_by_id)) {

@@ -380,7 +380,7 @@ class bigone (Exchange):
         #       "state": "FILLED"
         #     }
         #
-        id = self.safe_string(order, 'order_id')
+        id = self.safe_string(order, 'id')
         if market is None:
             marketId = self.safe_string(order, 'market_id')
             if marketId in self.markets_by_id:

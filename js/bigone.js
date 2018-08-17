@@ -389,7 +389,7 @@ module.exports = class bigone extends Exchange {
         //       "state": "FILLED"
         //     }
         //
-        let id = this.safeString (order, 'order_id');
+        let id = this.safeString (order, 'id');
         if (typeof market === 'undefined') {
             let marketId = this.safeString (order, 'market_id');
             if (marketId in this.markets_by_id) {
