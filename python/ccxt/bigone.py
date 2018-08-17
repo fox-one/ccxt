@@ -423,7 +423,7 @@ class bigone (Exchange):
 
     def parse_order_status(self, status):
         statuses = {
-            'PENDING': 'pending',
+            'PENDING': 'open',
             'FILLED': 'closed',
             'CANCELED': 'canceled',
         }
@@ -473,7 +473,7 @@ class bigone (Exchange):
         #       "state": "FILLED"
         #     }
         #
-        return self.parse_order(response)
+        return self.parse_order(response.data)
 
     def cancel_all_orders(self, symbol=None, params={}):
         self.load_markets()

@@ -5608,7 +5608,7 @@ module.exports = class bigone extends Exchange {
 
     parseOrderStatus (status) {
         let statuses = {
-            'PENDING': 'pending',
+            'PENDING': 'open',
             'FILLED': 'closed',
             'CANCELED': 'canceled',
         };
@@ -5660,7 +5660,7 @@ module.exports = class bigone extends Exchange {
         //       "state": "FILLED"
         //     }
         //
-        return this.parseOrder (response);
+        return this.parseOrder (response.data);
     }
 
     async cancelAllOrders (symbol = undefined, params = {}) {

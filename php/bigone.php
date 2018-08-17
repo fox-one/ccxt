@@ -439,7 +439,7 @@ class bigone extends Exchange {
 
     public function parse_order_status ($status) {
         $statuses = array (
-            'PENDING' => 'pending',
+            'PENDING' => 'open',
             'FILLED' => 'closed',
             'CANCELED' => 'canceled',
         );
@@ -491,7 +491,7 @@ class bigone extends Exchange {
         //       "state" => "FILLED"
         //     }
         //
-        return $this->parse_order($response);
+        return $this->parse_order($response->data);
     }
 
     public function cancel_all_orders ($symbol = null, $params = array ()) {
